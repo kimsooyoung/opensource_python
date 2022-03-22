@@ -1,55 +1,39 @@
-class Sample(object):
-    
-    def __init__(self):
-        self.__x = 12
-        self.__y = 3.1415
-        self.__z = "str"
+import os
 
-    @property
-    def x(self):
-        return self.__x
+class DirectoryFileCount(object):
 
-    @x.setter
-    def x(self, x_in):
-        self.__x = x_in
+    def __get__(self, obj, objtype = None):
+        print(os.listdir(obj.dirname))
+        return len(os.listdir(obj.dirname))
 
-    @x.getter
-    def x(self):
-        return self.__x
+class StrDescriptor(object):
 
-class DescriptorExample(object):
-
-    def __init__(self, default="Default"):
+    def __init__(self, default="str"):
         self.name = default
 
-    def __get__(self, obj, objtype): 
-        print("__get__")
-        print(f"{self} {obj} {objtype}")
+    def __get__(self, obj, objtype=None):
         return self.name
-        
+
     def __set__(self, obj, name):
-        print("__set__")
         if isinstance(name, str):
             self.name = name
         else:
-            raise ValueError("Invalid Value Err")
-
+            raise ValueError("Invalid Type Error")
+    
     def __delete__(self, obj):
-        print("__del__")
-        self.name = None
-        
-class Sample2(object):
-    name = DescriptorExample()
+        del self.name
+
+class DirectoryPath:
+
+    test = DirectoryFileCount()
+
+    def __init__(self, dirname="./"):
+        self.dirname = StrDescriptor(dirname)
 
 
-# class 
-# sample = Sample()
-# print(sample.x)
-# sample.x = 1000
-# print(sample.x)
+test = DirectoryPath("./")
 
-sample2 = Sample2()
-print(sample2.name)
-sample2.name = "Hello Hello"
-print(sample2.name)
-del sample2.name
+print('dir > ', dir(DirectoryPath))
+print('__dict__ > ', DirectoryPath.__dict__)
+print('dir > ', dir(test))
+print('__dict__ > ', test.__dict__)
