@@ -249,5 +249,86 @@ dict로 하면 드러나며 여기에는 DirectoryFileCount, DirectoryPath 같�
 
 두번째 예제 - 로깅 
 
-15:00
+logging 패키지 사용법
 
+```python
+import logging
+
+logging.basicConfig(
+    format='%(asctime)s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+```
+
+Descriptor로 따로 관리하는 변수는 로직상 정말 중요해서 별로 관리를 하겠다는 뜻으로 해석 가능하다.
+
+점수를 다루는 descriptor를 만들고 이에 logging 시스템도 접목시켜보자.
+
+```python
+import logging
+
+logging.basicConfig(
+    format="%(asctime)s %(message)s",
+    level=logging.INFO,
+    datefmt="%Y-%m-%d %H:%M:%S"
+)
+
+logging.info("Test Test")
+
+class LoggedScore(object):
+
+    def __init__(self, default=0):
+        self._score = default
+
+    def __get__(self, obj, objtype=None):
+        logging.info("Get Called")
+        return self._score
+
+    def __set__(self, obj, val):
+        logging.info("Set Called")
+        if isinstance(val, int):
+            self._score = val
+        else:
+            raise TypeError("Invalid type inserted!!")
+
+class Student(object):
+
+    score = LoggedScore()
+
+    def __init__(self, name="Student"):
+        self._name = name 
+
+kim = Student("Kim")
+print(kim.score)
+
+lee = Student("Lee")
+print(lee.score)
+
+kim.score += 30
+
+# 결과
+2022-03-23 21:24:17 Test Test
+2022-03-23 21:24:17 Get Called
+0
+2022-03-23 21:24:17 Get Called
+0
+2022-03-23 21:24:17 Get Called
+2022-03-23 21:24:17 Set Called
+```
+
+vars 라는 함수를 통해 인스턴스 내의 지정된 클래스 변수 값을 조회해보자.
+__dict__로 봐도 된다. vars는 좀 더 컴팩트하게 볼 수 있음
+```python
+print(vars(kim))
+print(vars(lee))
+
+#결과
+{'_name': 'Kim'}
+{'_name': 'Lee'}
+```
+
+파이썬 공홈에서 descriptor 예시를 살펴보자.
+DB에 연결해서 get, set을 손쉽게 해주도록 하는 예시이다.
+
+![image](https://user-images.githubusercontent.com/12381733/159699167-ece8f266-ee03-4b59-ade6-c5baf6989d0e.png)
