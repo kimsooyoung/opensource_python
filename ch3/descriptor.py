@@ -188,7 +188,7 @@ class LoggedScoreAccess:
 
 class Student:
     # Descriptor instance
-    score = LoggedScoreAccess()             
+    score = LoggedScoreAccess()          
 
     def __init__(self, name):
         # Regular instance attribute
