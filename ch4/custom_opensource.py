@@ -20,7 +20,7 @@ path_in = "./project/images/*.png"
 path_out = "./project/image_out/result.gif"
 
 # 첫 번째 이미지 & 모든 이미지 리스트 팩킹
-img, *images = [Image.open(f) for f in sorted(glob.glob(path_in))]
+img, *images = [Image.open(f)for f in sorted(glob.glob(path_in))]
 
 # 리사이즈(필요한 경우)
 # img, *images = [Image.open(f).resize((320, 240), Image.ANTIALIAS) for f in sorted(glob.glob(path_in))]
