@@ -1,42 +1,8 @@
-import logging
+# py_ad_4_3 : 완성된 패키지 임포트
+from test import GifConverter as gfc
 
-logging.basicConfig(
-    format='%(message)s',
-    level=logging.INFO,
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
+# 클래스 생성
+c = gfc("./project/images/*.png", './project/image_out/result.gif', (320,240))
 
-class LoggedScoreAccess:
-
-    def __init__(self, value=60):
-        self.value = value
-
-    def __get__(self, obj, objtype=None):
-        logging.info('Accessing %r giving %r', 'score', self.value)
-        return self.value
-
-    def __set__(self, obj, value):
-        logging.info('Updating %r to %r', 'score', self.value)
-        self.value = value
-
-class Student:
-    # Descriptor instance
-    score = LoggedScoreAccess()          
-
-    def __init__(self, name):
-        # Regular instance attribute
-        self.name = name                  
-
-
-s1 = Student('Kim')
-s2 = Student('Lee')
-
-# 점수 확인(s1)
-print('Ex2 > ', s1.score)
-s1.score += 10
-# print('Ex2 > ', s1.score)
-
-# # 점수 확인(s2)
-# print('Ex2 > ', s2.score)
-# s2.score += 20
-# print('Ex2 > ', s2.score)
+# 실행
+c.convert_gif()
