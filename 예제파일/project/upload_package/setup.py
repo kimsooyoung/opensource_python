@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name             = 'pygifconvt',
+    name             = 'pygifconvt_sw',
     version          = '1.0.0',
     description      = 'Test package for distribution',
-    author           = 'Eunki7',
-    author_email     = 'outsider7224@gmail.com',
+    author           = 'kimsooyoung',
+    author_email     = 'tge1375@naver.com',
     url              = '',
     download_url     = '',
     install_requires = ['pillow'],
@@ -19,4 +19,4 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent"
     ]
-) 
+)
